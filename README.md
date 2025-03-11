@@ -15,7 +15,7 @@ Project Organization
     │
     ├── reports            <- Generated analysis
     │   └── figures        <- Generated graphics and figures to be used in reporting
-    │   └── metrics        <- Generated metrics be used in reporting
+    │   └── metrics        <- Generated metrics to be used in reporting
     │   └── example_images <- Chosen images to be used in reporting
     │
     └── src                <- Source code for use in this project.
