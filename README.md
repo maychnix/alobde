@@ -1,6 +1,9 @@
 # alobde
 ==============================
+
+
 Task: Alchemic Object Detection (alobde) in historic book illustrations.
+
 
 ## Project Organization
 ------------
