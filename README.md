@@ -33,7 +33,7 @@ Task: Alchemic Object Detection (alobde) in historic book illustrations.
 3. Execute notebooks with necessary ressources (inference < 11 GB VRAM, fine tuning ~ 45 GB VRAM)
 4. Execute scripts in src/analysis in the order indicated my the file naming for the given analysis (first = 1_*, ...)
 
-Data and reports folders are empty by design and will be filled by executing the scripts given you own the needed data.
+Data and reports folders are empty by design and will be filled by executing the scripts - given you have access to the data.
 
 --------
 
