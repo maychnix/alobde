@@ -54,13 +54,23 @@ def get_percentages(dic):
         percentages[key] = round(pct,2)
     return percentages
 
+def correct_names(names_tuple):
+    out = ()
+    for elem in names_tuple:
+        if elem.find("-") != -1:
+            elem = elem.replace("-", "-\n")
+        out = out + (elem,)
+    return out
+
+
 def get_barplot(dataset, name, total = False):
     if total:
        d = get_total_label_freq(dataset)
     else:
         d = get_label_freq(dataset)
     names, counts = zip(*d.items())
-    graph = plt.bar(names, counts)
+    cor_names = correct_names(names)
+    graph = plt.bar(cor_names, counts)
 
     percentages = get_percentages(d)
 
@@ -76,8 +86,16 @@ def get_barplot(dataset, name, total = False):
                  weight='bold')
         i += 1
 
+    plt.ylabel("Frequency", labelpad= 32, size = 18)
     plt.xticks(rotation=45)
-    plt.savefig(wd + '/reports/figures/' + name + '_label_distribution.png')
+    if total:
+        plt.title("Label distribution - total sample", size = 24)
+    else:
+        title = "Label distribution - " + name + " split"
+        plt.title(title, size = 24)
+
+    #plt.savefig(wd + '/reports/figures/' + name + '_label_distribution.png')
+    plt.show()
     plt.clf()
 
 ##############
@@ -88,4 +106,4 @@ val_ds = ds["valid"]["labels"]
 get_barplot(ds, "total", True)
 get_barplot(train_ds, "train")
 get_barplot(test_ds, "test")
-get_barplot(val_ds, "val")
+get_barplot(val_ds, "validation")
