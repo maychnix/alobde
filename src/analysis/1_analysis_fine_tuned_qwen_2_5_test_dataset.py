@@ -72,7 +72,9 @@ def check_well_formed(s):
 
 
 def clean_output(output):
-    out = output.replace("json", "").replace("```", "").replace("[]","0")
+    inval_count = 0
+    inval_counted = False
+    out = output.replace("json", "").replace("```", "").replace("[]","0").replace("None","0")
     if not check_well_formed(out):
         out = """{"ampullae" : None,
               "animal": None,
@@ -87,6 +89,8 @@ def clean_output(output):
               "plant": None,
               "ollae": None
               }"""
+        inval_count += 1
+        inval_counted = True
     d = eval(out)
 
     for k, v in d.items():
@@ -94,15 +98,21 @@ def clean_output(output):
             continue
         else:
             d[k] = None
-    return d
+            if not inval_counted:
+                inval_count += 1
+                inval_counted = True
+
+    return d, inval_count
 
 ##################################################
+inval_count = 0
 for sample in test_dataset:
     idx = sample["idx"]
     output = find_elem(results, idx)
 
     ground_truth = sample["labels"]
-    model_answer = clean_output(output)
+    model_answer, count = clean_output(output)
+    inval_count += count
 
     for k, v in ground_truth.items():
         v_m = model_answer.get(k)
@@ -133,7 +143,7 @@ for sample in test_dataset:
                 class_perf[k] = t
 
 
-
-
+#####################################
+# print(f"outputs with invalid parts: {inval_count}") #TODO uncomment to print # of affected outputs with invalid parts
 with open((wd / "data/processed/class_perf_fine_tuned_qwen2_5.pkl"), "wb") as file:
     pickle.dump(class_perf, file)
